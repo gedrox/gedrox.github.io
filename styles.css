@@ -1,3 +1,20 @@
 body {
     background-color: grey;
 }
+.section {
+    border: 1px solid blue;
+    display: none;
+    padding: 1em;
+}
+.section#step-1 {
+    display: block;
+}
+input {
+    width: 80%;
+}
+button {
+    margin-top: 0.5em;
+}
+.size2x {
+    font-size: 200%;
+}

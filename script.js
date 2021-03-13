@@ -104,6 +104,7 @@ $(function(){
 
             var d = distance(lat, lon, target[0], target[1]);
             targetBrng = bearing(lat, lon, target[0], target[1]);
+            $('#compass .direction').css('transform', 'rotate(' + targetBrng + 'deg)')
 
             if (d < 1.0) {
                 d = Math.round(1000 * d) + " meters";
@@ -118,7 +119,7 @@ $(function(){
         history.back();
     });
     window.addEventListener("deviceorientationabsolute", function(e) {
-        $('#compass .direction').css('transform', 'rotate(' + (targetBrng + e.alpha) + ')')
+        $('#compass .direction').css('transform', 'rotate(' + (targetBrng + e.alpha) + 'deg)')
     }, true);
     window.addEventListener('popstate', function(e){
         if(e.state) {

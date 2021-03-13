@@ -18,3 +18,14 @@ button {
 .size2x {
     font-size: 200%;
 }
+#compass {
+    border: 1px solid red;
+    text-align: center;
+    position: relative;
+    padding: 3em 0;
+}
+#compass .direction {
+    transition: transform 0.1s ease-out;
+    transform: rotate(-90deg);
+    display: block;
+}

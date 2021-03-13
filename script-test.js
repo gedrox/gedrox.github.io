@@ -1,6 +1,6 @@
 
 var lat, lon;
-var test = false;
+var test = true;
 var targetBrng = 0;
 var target;
 

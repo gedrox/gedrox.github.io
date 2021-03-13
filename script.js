@@ -120,6 +120,16 @@ $(function(){
     var ts = txt.split('=')[1];
     $('.timestamp').text(ts == '' ? 'TEST' : new Date(ts * 1000));
 
+    var now = Math.floor(Date.now() / 1000);
+    if (window.location.search == '') {
+        window.location.search = '?t=' + now;
+    } else {
+        var old = window.location.search.split('=')[1];
+        if (now - old > 60) {
+            window.location.search = '?t=' + now;
+        }
+    }
+
     step(2);
     $('#step-1').click(function() {
         step(2);

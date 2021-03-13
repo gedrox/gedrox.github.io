@@ -121,8 +121,8 @@ $(function(){
     $('#step-2 button').click(function() {
         getPosition(function(lat, lon) {
             target = getRandomPosition(lat, lon, $('#distance').val());
+            refreshInfo();
         });
-        refreshInfo();
         step(3);
     });
     $('#step-3 button.back').click(function() {

@@ -118,7 +118,7 @@ function refreshInfo() {
 $(function(){
     var txt = $('.timestamp').text();
     var ts = txt.split('=')[1];
-    $('.timestamp').text(new Date(ts * 1000));
+    $('.timestamp').text(ts == '' ? 'TEST' : new Date(ts * 1000));
 
     step(2);
     $('#step-1').click(function() {

@@ -3,6 +3,7 @@ var lat, lon;
 var test = false;
 var targetBrng = 0;
 var target;
+var prevAlpha = 0;
 
 function step(i, setHistory) {
     if (typeof(setHistory) == 'undefined') {
@@ -157,7 +158,9 @@ $(function(){
         refreshInfo();
     });
     window.addEventListener("deviceorientationabsolute", function(e) {
-        $('#compass .direction').css('transform', 'rotate(' + (targetBrng + e.alpha) + 'deg)')
+        var mod = 360 * Math.round((prevAlpha - e.alpha) / 360)
+        $('#compass .direction').css('transform', 'rotate(' + (targetBrng + e.alpha + mod) + 'deg)');
+        prevAlpha = e.alpha + mod;
     }, true);
     window.addEventListener('popstate', function(e){
         if(e.state) {

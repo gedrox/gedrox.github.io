@@ -1,6 +1,7 @@
 
 var lat, lon;
-var test = false;
+var test = true;
+//PROD test = false;
 var targetBrng = 0;
 var target;
 
@@ -12,6 +13,9 @@ function step(i, setHistory) {
     $('#step-' + i).show();
     if (setHistory) {
         history.pushState({step: i}, 'step ' + i, '#step-' + i);
+    }
+    if (i == 2) {
+        $('button.resume').toggle(!!target);
     }
 }
 
@@ -60,7 +64,7 @@ function bearing(startLat, startLng, destLat, destLng){
 
 function getPosition(callback) {
     if (test) {
-        callback(20.0 + Math.random(), 21.2);
+        callback(20.0 + Math.random() / 1000.0, 21.2 + Math.random() / 1000.0);
     }else {
         navigator.geolocation.getCurrentPosition(function(position) {
             callback(position.coords.latitude, position.coords.longitude);
@@ -118,7 +122,16 @@ $(function(){
     $('#step-1').click(function() {
         step(2);
     });
-    $('#step-2 button').click(function() {
+    $('#step-2 button.resume').click(function() {
+        refreshInfo();
+        step(3);
+    });
+    $('#step-2 button.run').click(function() {
+        if (target) {
+            if (!confirm('Are you sure you want to reset the position?')) {
+                return;
+            }
+        }
         getPosition(function(lat, lon) {
             target = getRandomPosition(lat, lon, $('#distance').val());
             refreshInfo();

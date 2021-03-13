@@ -1,6 +1,6 @@
 
 var lat, lon;
-var test = true;
+var test = false;
 var targetBrng = 0;
 
 function step(i, setHistory) {

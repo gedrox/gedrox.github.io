@@ -2,6 +2,7 @@
 var lat, lon;
 var test = false;
 var targetBrng = 0;
+var target;
 
 function step(i, setHistory) {
     if (typeof(setHistory) == 'undefined') {
@@ -59,7 +60,7 @@ function bearing(startLat, startLng, destLat, destLng){
 
 function getPosition(callback) {
     if (test) {
-        callback(20.0, 21.2);
+        callback(20.0 + Math.random(), 21.2);
     }else {
         navigator.geolocation.getCurrentPosition(function(position) {
             callback(position.coords.latitude, position.coords.longitude);
@@ -88,35 +89,47 @@ function distance(lat1, lon1, lat2, lon2) {
 	}
 }
 
+function refreshInfo() {
+    if (!target) {
+        return;
+    }
+    getPosition(function(lat, lon) {
+        var d = distance(lat, lon, target[0], target[1]);
+        targetBrng = bearing(lat, lon, target[0], target[1]);
+
+        $('.position').html("Latitude: " + lat +
+          "<br>Longitude: " + lon);
+        $('.target').html("Latitude: " + target[0] +
+                        "<br>Longitude: " + target[1] +
+                        "<br>Bearing: " + targetBrng);
+
+        if (d < 1.0) {
+            d = Math.round(1000 * d) + " meters";
+        } else {
+            d = Math.round(100 * d) / 100.0 + " km";
+        }
+        $('.kms').text(d);
+    });
+}
+
 $(function(){
 
-    step(1);
+    step(2);
     $('#step-1').click(function() {
         step(2);
     });
     $('#step-2 button').click(function() {
         getPosition(function(lat, lon) {
-            $('.position').html("Latitude: " + lat +
-              "<br>Longitude: " + lon);
-            var target = getRandomPosition(lat, lon, $('#distance').val())
-              $('.target').html("Latitude: " + target[0] +
-                            "<br>Longitude: " + target[1]);
-
-            var d = distance(lat, lon, target[0], target[1]);
-            targetBrng = bearing(lat, lon, target[0], target[1]);
-            $('#compass .direction').css('transform', 'rotate(' + targetBrng + 'deg)')
-
-            if (d < 1.0) {
-                d = Math.round(1000 * d) + " meters";
-            } else {
-                d = Math.round(100 * d) / 100.0 + " km";
-            }
-            $('.kms').text(d);
+            target = getRandomPosition(lat, lon, $('#distance').val());
         });
+        refreshInfo();
         step(3);
     });
     $('#step-3 button.back').click(function() {
         history.back();
+    });
+    $('#step-3 button.refresh').click(function() {
+        refreshInfo();
     });
     window.addEventListener("deviceorientationabsolute", function(e) {
         $('#compass .direction').css('transform', 'rotate(' + (targetBrng + e.alpha) + 'deg)')

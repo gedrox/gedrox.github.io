@@ -28,4 +28,5 @@ button {
     transition: transform 0.1s ease-out;
     transform: rotate(-90deg);
     display: block;
+    font-size: 500%;
 }
